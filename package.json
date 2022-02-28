@@ -1,0 +1,41 @@
+{
+  "name": "mauro",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start"
+  },
+  "dependencies": {
+    "@date-io/date-fns": "^1.3.13",
+    "@devexpress/dx-react-core": "^2.7.6",
+    "@devexpress/dx-react-scheduler": "^2.7.6",
+    "@devexpress/dx-react-scheduler-material-ui": "^2.7.6",
+    "@material-ui/core": "^4.11.4",
+    "@material-ui/data-grid": "^4.0.0-alpha.32",
+    "@material-ui/icons": "^4.11.2",
+    "@material-ui/lab": "^4.0.0-alpha.58",
+    "@material-ui/pickers": "^3.3.10",
+    "@pdf-lib/fontkit": "^1.1.1",
+    "date-fns": "^2.22.1",
+    "downloadjs": "^1.4.7",
+    "firebase": "^9.1.3",
+    "firebaseui": "^4.8.0",
+    "json-server": "^0.16.3",
+    "moment": "^2.29.1",
+    "next": "10.2.3",
+    "pdf-lib": "^1.17.0",
+    "react": "17.0.2",
+    "react-big-calendar": "^0.33.5",
+    "react-big-calendar-like-google": "^0.0.3",
+    "react-dnd": "^14.0.2",
+    "react-dnd-html5-backend": "^14.0.0",
+    "react-dom": "17.0.2",
+    "typescript": "^4.4.2"
+  },
+  "devDependencies": {
+    "@types/google.maps": "^3.45.6",
+    "babel-plugin-styled-components": "^1.12.0"
+  }
+}
