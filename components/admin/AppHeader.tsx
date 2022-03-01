@@ -146,40 +146,10 @@ const AppHeader: FC<AppHeaderProps> = (props) => {
 
   const menuItems = [
     {
-      text: 'Évènements',
+      text: 'Home',
       icon: <HomeIcon />,
       route: '/',
-    },
-    {
-      text: 'Clients',
-      icon: <AccountBoxIcon />,
-      route: '/clients',
-    },
-    {
-      text: 'Menus',
-      icon: <RestaurantMenuIcon />,
-      route: '/menu',
-    },
-    {
-      text: 'Plats',
-      icon: <MenuBookIcon />,
-      route: '/carte',
-    },
-    {
-      text: 'Matériel',
-      icon: <RestaurantIcon />,
-      route: '/material',
-    },
-    {
-      text: 'Boissons',
-      icon: <EmojiFoodBeverageIcon />,
-      route: '/drinks',
-    },
-    {
-      text: 'Admin',
-      icon: <SettingsIcon />,
-      route: '/admin',
-    },
+    }
   ];
 
   return (

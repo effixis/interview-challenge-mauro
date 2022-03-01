@@ -33,7 +33,7 @@ const firebaseConfig = {
   appId: "1:154608618579:web:c0a4268995f1e743d58aa6"
 };
 
-const googleMapsAPIKey = "AIzaSyDPRevJLLYECQKIUxp6WZCQaj4e0Qu39wk";
+const googleMapsAPIKey = "";
 
 /*
 Initialize the firebase app, has to be done only once.
@@ -132,60 +132,3 @@ Firebase database reference
 Importing it avoids importing firebase (app & database) everywhere
 */
 export const db = getDatabase();
-
-/** Dynamically import google maps api */
-export function importGoogleMapAPI(onLoad?: () => void) {
-
-  const existingScript = document.getElementById('googleMaps');
-
-  if (existingScript) {
-    // trigger onLoad anyway
-    if (onLoad) {
-      onLoad();
-    }
-    return;
-  }
-
-  // create script element
-  const script = document.createElement('script');
-  script.src = `https://maps.googleapis.com/maps/api/js?key=${googleMapsAPIKey}&libraries=places`;
-  script.id = 'googleMaps';
-  document.body.appendChild(script);
-  script.onload = () => {
-    if (onLoad) {
-      onLoad();
-    }
-  };
-}
-
-/**
- * Call the Google maps distance matrix api
- * https://developers.google.com/maps/documentation/distance-matrix/overview
- */
-export function getDistance(
-  originID: string,
-  destID: string,
-  /** distance: meters */
-  cb: (distance: number, time: string) => void
-) {
-
-  const matrix = new google.maps.DistanceMatrixService();
-
-  matrix.getDistanceMatrix({
-    origins: [{ placeId: originID }],
-    destinations: [{ placeId: destID }],
-    travelMode: google.maps.TravelMode.DRIVING,
-  }, (response, status) => {
-    if (status !== google.maps.DistanceMatrixStatus.OK || !response) {
-      return;
-    }
-
-    const values = response.rows[0].elements[0];
-
-    const distance = values.distance.value;
-    const time = values.duration.text;
-
-    cb(distance, time);
-  });
-
-}
