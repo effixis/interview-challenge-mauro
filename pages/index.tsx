@@ -80,7 +80,7 @@ const PageOverview: FC<PageOverviewProps> = (props) => {
 	};
 
 	return (
-		<Page withAuth={false} withData title="Overview">
+		<Page withAuth withData title="Overview">
 			<Grid container direction="column">
 				<Grid item>
 					<Collapse in={true}>
