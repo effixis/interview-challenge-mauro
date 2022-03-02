@@ -56,6 +56,9 @@ const useStyles = makeStyles((theme) => ({
 			paddingTop: 0,
 		},
 	},
+	AdditionalInfoCard: {
+		paddingTop: "2rem",
+	},
 }));
 
 export interface PageOverviewProps {}
@@ -128,17 +131,12 @@ const PageOverview: FC<PageOverviewProps> = (props) => {
 											container
 											className={`${classes.spacingLeft}`}
 										>
-											<Box
-												component={Grid}
-												item
-												xs={12}
-												className={classes.serviceCard}
-											>
-												<ServiceCard {...info} />
-											</Box>
-											<Box component={Grid} item xs={12} pt={2}>
+											<Grid item xs={12} className={classes.serviceCard}>
+												<ServiceCard {...info} {...data.config} />
+											</Grid>
+											<Grid item xs={12} className={classes.AdditionalInfoCard}>
 												<AdditionalInfoCard {...info} />
-											</Box>
+											</Grid>
 										</Grid>
 									</Grid>
 								</Grid>
