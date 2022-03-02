@@ -6,6 +6,7 @@ import { CardContent, Grid, Card, Typography, Box } from "@material-ui/core";
 
 // utils
 import type { Data } from "../../utils/types";
+import { formatNumber } from "../../utils/Helper";
 
 export interface ServiceCardProps {
 	service: Data.Event["service"];
@@ -18,9 +19,10 @@ const ServiceCard: FC<ServiceCardProps> = ({
 	wagesCook,
 	wagesServer,
 }) => {
-	const totalCHF =
+	const totalCHF = formatNumber(
 		wagesCook * service.cooksDuration * service.cooksN +
-		wagesServer * service.serversDuration * service.serversN;
+			wagesServer * service.serversDuration * service.serversN
+	);
 
 	return (
 		<Box component={Card} height="100%">

@@ -6,6 +6,7 @@ import { CardContent, Grid, Card, Box, Typography } from "@material-ui/core";
 
 // utils
 import type { Data } from "../../utils/types";
+import { formatNumber } from "../../utils/Helper";
 
 export interface DishesMenuCardProps {
 	menus: Data.Event["menus"];
@@ -15,25 +16,23 @@ export interface DishesMenuCardProps {
 const DishesMenuCard: FC<DishesMenuCardProps> = ({ menus, people }) => {
 	const totalCHF =
 		menus.length > 0
-			? Math.round(
+			? formatNumber(
 					menus
 						.map((m) => m.price * m.quantity)
 						.reduce((prev, cur) => {
 							return prev + cur;
-						}) * 100
-			  ) / 100
+						})
+			  )
 			: "NA";
 	const totalPP =
 		menus.length > 0
-			? Math.round(
-					(menus
+			? formatNumber(
+					menus
 						.map((m) => m.price)
 						.reduce((prev, cur) => {
 							return prev + cur;
-						}) /
-						people) *
-						100
-			  ) / 100
+						}) / people
+			  )
 			: "NA";
 	return (
 		<Box component={Card} height="100%">

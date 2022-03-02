@@ -6,6 +6,7 @@ import { CardContent, Grid, Card, Box, Typography } from "@material-ui/core";
 
 // utils
 import type { Data } from "../../utils/types";
+import { formatNumber } from "../../utils/Helper";
 
 export interface DrinkCardProps {
 	drinks: Data.Event["drinks"];
@@ -14,9 +15,9 @@ export interface DrinkCardProps {
 const DrinkCard: FC<DrinkCardProps> = ({ drinks }) => {
 	const totalCHF =
 		drinks.length > 0
-			? Math.round(
-					drinks.map((d) => d.price * d.quantity).reduce((a, b) => a + b) * 100
-			  ) / 100
+			? formatNumber(
+					drinks.map((d) => d.price * d.quantity).reduce((a, b) => a + b)
+			  )
 			: "NA";
 	return (
 		<Box component={Card} height="100%">
