@@ -8,10 +8,29 @@ import CheckIcon from "@material-ui/icons/Check";
 import type { Data } from "../../utils/types";
 
 export interface AdditionalInfoCardProps {
-	price: Data.Event["price"];
+	delivery: Data.Event["delivery"];
+	returnDelivery: Data.Event["returnDelivery"];
+	service: Data.Event["service"];
+	drinks: Data.Event["drinks"];
+	materials: Data.Event["materials"];
 }
 
-const AdditionalInfoCard: FC<AdditionalInfoCardProps> = ({}) => {
+const AdditionalInfoCard: FC<AdditionalInfoCardProps> = ({
+	delivery,
+	returnDelivery,
+	service,
+	drinks,
+	materials,
+}) => {
+	const hasService =
+		service &&
+		(service.cooksDuration ||
+			service.cooksN ||
+			service.serversDuration ||
+			service.serversN);
+	const hasTransport = delivery || returnDelivery;
+	const hasBoisson = drinks && drinks.length > 0;
+	const hasMateriel = materials && materials.length > 0;
 	return (
 		<Box component={Card} height="100%" display="flex" alignItems="center">
 			<Box component={CardContent} mb={0}>
@@ -21,7 +40,7 @@ const AdditionalInfoCard: FC<AdditionalInfoCardProps> = ({}) => {
 							<Typography>Service</Typography>
 						</Grid>
 						<Grid item>
-							<CheckIcon fontSize="small" />
+							{hasService ? <CheckIcon fontSize="small" /> : null}
 						</Grid>
 					</Grid>
 					<Grid item container xs={6} spacing={2} justify="space-evenly">
@@ -29,7 +48,7 @@ const AdditionalInfoCard: FC<AdditionalInfoCardProps> = ({}) => {
 							<Typography>Transport</Typography>
 						</Grid>
 						<Grid item>
-							<CheckIcon fontSize="small" />
+							{hasTransport ? <CheckIcon fontSize="small" /> : null}
 						</Grid>
 					</Grid>
 					<Grid item container xs={6} spacing={2} justify="space-evenly">
@@ -37,7 +56,7 @@ const AdditionalInfoCard: FC<AdditionalInfoCardProps> = ({}) => {
 							<Typography>Boisson</Typography>
 						</Grid>
 						<Grid item>
-							<CheckIcon fontSize="small" />
+							{hasBoisson ? <CheckIcon fontSize="small" /> : null}
 						</Grid>
 					</Grid>
 					<Grid item container xs={6} spacing={2} justify="space-evenly">
@@ -45,7 +64,7 @@ const AdditionalInfoCard: FC<AdditionalInfoCardProps> = ({}) => {
 							<Typography>Materiel</Typography>
 						</Grid>
 						<Grid item>
-							<CheckIcon fontSize="small" />
+							{hasMateriel ? <CheckIcon fontSize="small" /> : null}
 						</Grid>
 					</Grid>
 				</Grid>
