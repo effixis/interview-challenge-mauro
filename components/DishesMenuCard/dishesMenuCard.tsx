@@ -1,5 +1,5 @@
 // react
-import { FC, Fragment } from "react";
+import { FC } from "react";
 
 // mui
 import { CardContent, Grid, Card, Box, Typography } from "@material-ui/core";
@@ -9,9 +9,10 @@ import type { Data } from "../../utils/types";
 
 export interface DishesMenuCardProps {
 	menus: Data.Event["menus"];
+	people: Data.Event["people"];
 }
 
-const DishesMenuCard: FC<DishesMenuCardProps> = ({ menus }) => {
+const DishesMenuCard: FC<DishesMenuCardProps> = ({ menus, people }) => {
 	const totalCHF =
 		menus.length > 0
 			? Math.round(
@@ -25,11 +26,13 @@ const DishesMenuCard: FC<DishesMenuCardProps> = ({ menus }) => {
 	const totalPP =
 		menus.length > 0
 			? Math.round(
-					menus
+					(menus
 						.map((m) => m.price)
 						.reduce((prev, cur) => {
 							return prev + cur;
-						}) * 100
+						}) /
+						people) *
+						100
 			  ) / 100
 			: "NA";
 	return (
