@@ -1,87 +1,160 @@
 // react
-import { FC, useState } from 'react';
+import { FC, useState } from "react";
 
 // mui
-import {
-  Collapse,
-  Grid,
-  makeStyles,
-} from '@material-ui/core';
+import { Collapse, Grid, makeStyles, Box, Typography } from "@material-ui/core";
 
 // utils
-import { Data, Calendar as CalendarType } from '../utils/types';
+import { Data, Calendar as CalendarType } from "../utils/types";
 
 // hooks
-import { useData } from '../hooks/useData';
+import { useData } from "../hooks/useData";
 
 // components
-import Page from '../components/Page';
-import History from '../components/overview/History';
-
+import Page from "../components/Page";
+import History from "../components/overview/History";
+import ClientInfo from "../components/ClientInfo";
+import DishesMenuCard from "../components/DishesMenuCard";
+import DrinkCard from "../components/DrinkCard";
+import FoodCard from "../components/FoodCard";
+import ServiceCard from "../components/ServiceCard";
+import AdditionalInfoCard from "../components/AdditionalInfoCard";
+import DeliveryCard from "../components/DeliveryCard";
 
 const useStyles = makeStyles((theme) => ({
-  paper: {
-    margin: theme.spacing(1),
-    padding: theme.spacing(2)
-  },
-  withMargin: {
-    margin: theme.spacing(1)
-  },
-  landingHeader: {
-    display: "flex",
-    gap: theme.spacing(2),
-    flexWrap: "wrap",
-    alignItems: "center",
-    margin: theme.spacing(1),
-    minHeight: theme.spacing(6),
-  },
+	paper: {
+		margin: theme.spacing(1),
+		padding: theme.spacing(2),
+	},
+	withMargin: {
+		margin: theme.spacing(1),
+	},
+	landingHeader: {
+		display: "flex",
+		gap: theme.spacing(2),
+		flexWrap: "wrap",
+		alignItems: "center",
+		margin: theme.spacing(1),
+		minHeight: theme.spacing(6),
+	},
+	spacingTop: {
+		paddingTop: "2rem",
+	},
+	spacingLeft: {
+		[theme.breakpoints.up("sm")]: {
+			paddingLeft: 0,
+			paddingTop: "2rem",
+		},
+		[theme.breakpoints.up("md")]: {
+			paddingLeft: "2rem",
+			paddingTop: 0,
+		},
+	},
+	serviceCard: {
+		paddingTop: "1rem",
+		[theme.breakpoints.up("md")]: {
+			paddingTop: 0,
+		},
+	},
+	AdditionalInfoCard: {
+		paddingTop: "2rem",
+	},
 }));
 
-export interface PageOverviewProps { }
+export interface PageOverviewProps {}
 
 const PageOverview: FC<PageOverviewProps> = (props) => {
+	const classes = useStyles();
+	const { data } = useData();
+	const [localClient, setLocalClient] = useState<Data.Client | null>(null);
+	const [localSelection, setLocalSelection] = useState<string[]>([]);
+	const [filters, setFilters] = useState<CalendarType.EventFilters>(
+		{} as CalendarType.EventFilters
+	);
 
-  const classes = useStyles();
-  const { data } = useData();
+	const [info, setInfo] = useState<Data.Event | null>(null);
 
-  const [localClient, setLocalClient] = useState<Data.Client | null>(null);
-  const [localSelection, setLocalSelection] = useState<string[]>([]);
-  const [filters, setFilters] = useState<CalendarType.EventFilters>({} as CalendarType.EventFilters);
+	const handleSetEvent = (event: Data.Event | null) => {
+		// handle the click event here !
+		setInfo(event);
+	};
 
-  const handleSetEvent = (event: Data.Event | null) => {
-    // handle the click event here !
-  }
+	return (
+		<Page withAuth withData title="Overview">
+			<Grid container direction="column">
+				<Grid item>
+					<Collapse in={true}>
+						<Grid className={classes.withMargin}>
+							<History
+								data={data}
+								onClick={(event) => {
+									handleSetEvent(event);
+								}}
+								filters={filters}
+								selected={localSelection}
+								selectedClient={localClient}
+							/>
+						</Grid>
+					</Collapse>
+				</Grid>
+				{info ? (
+					<>
+						<Box pt={4} pl={4.5} pr={4.5}>
+							<ClientInfo {...info} />
+						</Box>
+						<Box pt={2} pl={1.5} pr={1.5}>
+							<DeliveryCard {...info} />
+						</Box>
+						<Box pt={2} pl={1.5} pr={1.5}>
+							<Grid container spacing={5}>
+								<Grid item md={6} xs={12}>
+									<DishesMenuCard {...info} />
+								</Grid>
+								<Grid item md={6} xs={12} container>
+									<Grid item xs={12}>
+										<FoodCard {...info} />
+									</Grid>
 
-  return (
-    <Page
-      withAuth
-      withData
-      title="Overview"
-    >
-      <Grid container direction="column">
-        <Grid item>
-          <Collapse in={true}>
-            <Grid className={classes.withMargin}>
-              <History
-                data={data}
-                onClick={(event) => {
-                  handleSetEvent(event);
-                }}
-                filters={filters}
-                selected={localSelection}
-                selectedClient={localClient}
-              />
-            </Grid>
-          </Collapse>
-        </Grid>
-        <Grid>
-
-          Insert page content here !
-
-        </Grid>
-      </Grid>
-    </Page>
-  )
-}
+									<Grid
+										item
+										xs={12}
+										container
+										className={`${classes.spacingTop}`}
+									>
+										<Grid item md={6} xs={12}>
+											<DrinkCard {...info} />
+										</Grid>
+										<Grid
+											item
+											md={6}
+											xs={12}
+											container
+											className={`${classes.spacingLeft}`}
+										>
+											<Grid item xs={12} className={classes.serviceCard}>
+												<ServiceCard {...info} {...data.config} />
+											</Grid>
+											<Grid item xs={12} className={classes.AdditionalInfoCard}>
+												<AdditionalInfoCard {...info} />
+											</Grid>
+										</Grid>
+									</Grid>
+								</Grid>
+							</Grid>
+						</Box>
+						<Box pt={3} pl={1} pr={1}>
+							<Typography>
+								<Box component="span" fontWeight="bold">
+									Commentaires:
+								</Box>{" "}
+								{info.comment}
+							</Typography>
+						</Box>
+					</>
+				) : null}
+			</Grid>
+		</Page>
+	);
+};
 
 export default PageOverview;
